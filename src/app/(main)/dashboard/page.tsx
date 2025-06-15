@@ -1,3 +1,4 @@
+
 import { TaskCreator } from '@/components/tasks/TaskCreator';
 import { TaskList } from '@/components/tasks/TaskList';
 import { TimeSummaryDisplay } from '@/components/summaries/TimeSummaryDisplay';
@@ -6,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 
 export default function DashboardPage() {
   return (
-    <div className="container mx-auto py-8 px-4 md:px-0">
+    <div className="py-8"> {/* Changed: Removed container, mx-auto, and specific horizontal padding */}
       <div className="space-y-8">
         <TimeSummaryDisplay />
         <Separator />
