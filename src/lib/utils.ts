@@ -1,5 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { ja } from 'date-fns/locale';
+import { format } from 'date-fns';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -9,7 +11,7 @@ export function formatDuration(totalSeconds: number): string {
   if (totalSeconds < 0) totalSeconds = 0;
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = Math.floor(totalSeconds % 60); // Use Math.floor for seconds
+  const seconds = Math.floor(totalSeconds % 60); 
 
   const paddedHours = String(hours).padStart(2, '0');
   const paddedMinutes = String(minutes).padStart(2, '0');
@@ -23,18 +25,10 @@ export function formatDuration(totalSeconds: number): string {
 
 export function formatDate(date: Date | string | number | undefined): string {
   if (!date) return 'N/A';
-  return new Date(date).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  return format(new Date(date), 'yyyy年M月d日', { locale: ja });
 }
 
 export function formatTime(date: Date | string | number | undefined): string {
   if (!date) return 'N/A';
-  return new Date(date).toLocaleTimeString(undefined, {
-    hour: '2-digit',
-    minute: '2-digit',
-    // second: '2-digit', // Optional: include seconds if needed
-  });
+   return format(new Date(date), 'HH:mm', { locale: ja });
 }

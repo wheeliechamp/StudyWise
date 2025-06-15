@@ -67,17 +67,17 @@ export function SubjectAnalyticsClient() {
   }));
 
   const barChartData = analyticsData
-    .map(st => ({ name: st.name, "Time (hours)": parseFloat((st.totalTime / 3600).toFixed(2))}))
+    .map(st => ({ name: st.name, "時間 (時間)": parseFloat((st.totalTime / 3600).toFixed(2))}))
     .slice(0, 10); // Top 10 for bar chart
 
 
   const chartConfig = {
-    "Time (hours)": {
-      label: "Time (hours)",
+    "時間 (時間)": {
+      label: "時間 (時間)",
       color: "hsl(var(--primary))",
     },
-     value: { // For pie chart
-      label: "Time Spent",
+     value: { 
+      label: "費やした時間",
     },
   } satisfies import('@/components/ui/chart').ChartConfig;
 
@@ -85,8 +85,8 @@ export function SubjectAnalyticsClient() {
     return (
       <div className="text-center py-10">
         <BarChart className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-        <h3 className="text-xl font-semibold font-headline">No Data for Analytics</h3>
-        <p className="text-muted-foreground">Complete some study sessions to see your subject analytics.</p>
+        <h3 className="text-xl font-semibold font-headline">分析データがありません</h3>
+        <p className="text-muted-foreground">いくつかの学習セッションを完了して、科目別の分析結果を表示しましょう。</p>
       </div>
     );
   }
@@ -100,15 +100,15 @@ export function SubjectAnalyticsClient() {
               <CardTitle className="font-headline text-lg truncate flex items-center">
                 <div className="w-3 h-3 rounded-full mr-2" style={{backgroundColor: CHART_COLORS[index % CHART_COLORS.length]}}></div>
                 {subject.name}
-                {subject.isCategory && <Badge variant="secondary" className="ml-2">Category</Badge>}
+                {subject.isCategory && <Badge variant="secondary" className="ml-2">カテゴリ</Badge>}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-1">
               <p className="text-2xl font-bold text-primary tabular-nums">{formatDuration(subject.totalTime)}</p>
-              <p className="text-xs text-muted-foreground">{subject.sessionCount} sessions · {subject.taskCount} tasks</p>
+              <p className="text-xs text-muted-foreground">{subject.sessionCount} セッション · {subject.taskCount} タスク</p>
               <p className="text-xs text-muted-foreground flex items-center">
                 <Percent className="h-3 w-3 mr-1" /> 
-                {((subject.totalTime / totalStudyTimeAllSubjects) * 100).toFixed(1)}% of total study time
+                {((subject.totalTime / totalStudyTimeAllSubjects) * 100).toFixed(1)}% (総学習時間比)
               </p>
             </CardContent>
           </Card>
@@ -119,17 +119,17 @@ export function SubjectAnalyticsClient() {
         <Card className="lg:col-span-3 shadow-xl">
           <CardHeader>
             <CardTitle className="font-headline text-xl flex items-center">
-              <BarChart className="mr-2 h-5 w-5 text-primary" />Top Subjects by Time
+              <BarChart className="mr-2 h-5 w-5 text-primary" />時間別上位科目
             </CardTitle>
-            <CardDescription>Comparison of time spent on your most studied subjects/categories.</CardDescription>
+            <CardDescription>最も学習時間の長い科目/カテゴリの比較。</CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="h-[400px] w-full">
               <RechartsBarChart accessibilityLayer data={barChartData} layout="vertical" margin={{left: 30, right: 30}}>
-                <XAxis type="number" dataKey="Time (hours)" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <XAxis type="number" dataKey="時間 (時間)" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                 <YAxis dataKey="name" type="category" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} tickMargin={10} width={120} />
                 <ChartTooltip cursor={{fill: 'hsl(var(--muted)/0.3)'}} content={<ChartTooltipContent indicator="line" hideLabel />} />
-                <Bar dataKey="Time (hours)" radius={4}>
+                <Bar dataKey="時間 (時間)" radius={4}>
                    {barChartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
                   ))}
@@ -142,9 +142,9 @@ export function SubjectAnalyticsClient() {
         <Card className="lg:col-span-2 shadow-xl">
           <CardHeader>
             <CardTitle className="font-headline text-xl flex items-center">
-              <PieIcon className="mr-2 h-5 w-5 text-primary" />Time Allocation
+              <PieIcon className="mr-2 h-5 w-5 text-primary" />時間配分
             </CardTitle>
-            <CardDescription>Overall distribution of your study time.</CardDescription>
+            <CardDescription>学習時間の全体的な分布。</CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[400px]">
@@ -168,9 +168,9 @@ export function SubjectAnalyticsClient() {
       <Card className="shadow-xl">
         <CardHeader>
           <CardTitle className="font-headline text-xl flex items-center">
-            <ListChecks className="mr-2 h-5 w-5 text-primary" />All Subjects & Categories
+            <ListChecks className="mr-2 h-5 w-5 text-primary" />すべての科目とカテゴリ
           </CardTitle>
-          <CardDescription>Detailed list of all subjects and categories you've studied.</CardDescription>
+          <CardDescription>学習したすべての科目とカテゴリの詳細リスト。</CardDescription>
         </CardHeader>
         <CardContent>
           <ScrollArea className="h-[400px]">
@@ -178,11 +178,11 @@ export function SubjectAnalyticsClient() {
               {analyticsData.map((subject, index) => (
                 <li key={index} className="p-4 bg-card border rounded-lg shadow-sm hover:bg-muted/50 transition-colors">
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold text-foreground">{subject.name} {subject.isCategory && <Badge variant="outline">Category</Badge>}</span>
+                    <span className="font-semibold text-foreground">{subject.name} {subject.isCategory && <Badge variant="outline">カテゴリ</Badge>}</span>
                     <span className="text-lg font-bold text-primary tabular-nums">{formatDuration(subject.totalTime)}</span>
                   </div>
                   <div className="text-xs text-muted-foreground mt-1">
-                    {subject.sessionCount} sessions on {subject.taskCount} unique {subject.isCategory ? "tasks in this category" : "task(s)"}
+                    {subject.sessionCount} セッション ({subject.taskCount} ユニーク {subject.isCategory ? "このカテゴリのタスク" : "タスク"})
                   </div>
                 </li>
               ))}

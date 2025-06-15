@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { BookOpen } from 'lucide-react';
 
 export const metadata = {
-  title: 'Subject Analytics - StudyWise',
+  title: '科目別分析 - 学習ワイズ',
 };
 
 export default function SubjectAnalyticsPage() {
@@ -13,10 +13,10 @@ export default function SubjectAnalyticsPage() {
         <CardHeader>
           <CardTitle className="font-headline text-3xl flex items-center text-primary">
             <BookOpen className="mr-3 h-8 w-8" />
-            Subject Analytics
+            科目別分析
           </CardTitle>
           <CardDescription className="text-lg">
-            Gain insights into your study habits. See where your time goes and how you're progressing across different subjects and categories.
+            学習習慣についての洞察を得ましょう。どの科目に時間を費やし、さまざまな科目やカテゴリでどのように進捗しているかを確認できます。
           </CardDescription>
         </CardHeader>
       </Card>

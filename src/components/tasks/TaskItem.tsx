@@ -42,8 +42,6 @@ export function TaskItem({ task }: TaskItemProps) {
     if (isCurrentTaskActive && activeSession.startTime) {
       setElapsedTime(activeSession.elapsedSeconds);
       const interval = setInterval(() => {
-        // Zustand's tick updates activeSession.elapsedSeconds, so we read from there.
-        // This component just re-renders due to store update.
          setElapsedTime(useStudyStore.getState().activeSession.elapsedSeconds);
       }, 1000);
       return () => clearInterval(interval);
@@ -58,22 +56,21 @@ export function TaskItem({ task }: TaskItemProps) {
       const stoppedSession = stopTimer();
       if (stoppedSession) {
         toast({
-          title: "Session Stopped",
-          description: `Logged ${formatDuration(stoppedSession.duration)} for "${stoppedSession.taskName}".`,
+          title: "セッション停止",
+          description: `タスク「${stoppedSession.taskName}」の記録時間: ${formatDuration(stoppedSession.duration)}`,
         });
       }
     } else {
-      // Ensure the task still exists before starting
       if(getTaskById(task.id)) {
         startTimer(task.id);
         toast({
-          title: "Session Started",
-          description: `Timer started for "${task.name}".`,
+          title: "セッション開始",
+          description: `タスク「${task.name}」のタイマーを開始しました。`,
         });
       } else {
          toast({
-          title: "Error",
-          description: `Task "${task.name}" no longer exists. Please refresh.`,
+          title: "エラー",
+          description: `タスク「${task.name}」は存在しません。ページを更新してください。`,
           variant: "destructive",
         });
       }
@@ -83,19 +80,19 @@ export function TaskItem({ task }: TaskItemProps) {
   const handleDelete = () => {
     deleteTask(task.id);
     toast({
-      title: "Task Deleted",
-      description: `Task "${task.name}" has been removed.`,
+      title: "タスク削除",
+      description: `タスク「${task.name}」が削除されました。`,
       variant: "destructive"
     });
   };
   
   const handleEdit = () => {
     if (editName.trim() === "") {
-      toast({ title: "Error", description: "Task name cannot be empty.", variant: "destructive" });
+      toast({ title: "エラー", description: "タスク名は空にできません。", variant: "destructive" });
       return;
     }
     editTask(task.id, editName, editCategory);
-    toast({ title: "Task Updated", description: `Task "${editName}" has been updated.` });
+    toast({ title: "タスク更新", description: `タスク「${editName}」が更新されました。` });
     setIsEditDialogOpen(false);
   };
 
@@ -115,50 +112,50 @@ export function TaskItem({ task }: TaskItemProps) {
           <div className="flex space-x-2">
             <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Edit task">
+                <Button variant="ghost" size="icon" aria-label="タスクを編集">
                   <Edit3 className="h-4 w-4" />
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle className="font-headline">Edit Task</DialogTitle>
+                  <DialogTitle className="font-headline">タスク編集</DialogTitle>
                   <DialogDescription>
-                    Update the details for your study task.
+                    学習タスクの詳細を更新します。
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4 py-4">
                   <div>
-                    <Label htmlFor="edit-task-name">Task Name</Label>
+                    <Label htmlFor="edit-task-name">タスク名</Label>
                     <Input id="edit-task-name" value={editName} onChange={(e) => setEditName(e.target.value)} />
                   </div>
                   <div>
-                    <Label htmlFor="edit-task-category">Category (Optional)</Label>
+                    <Label htmlFor="edit-task-category">カテゴリ (任意)</Label>
                     <Input id="edit-task-category" value={editCategory} onChange={(e) => setEditCategory(e.target.value)} />
                   </div>
                 </div>
                 <DialogFooter>
-                  <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
-                  <Button onClick={handleEdit}>Save Changes</Button>
+                  <DialogClose asChild><Button variant="outline">キャンセル</Button></DialogClose>
+                  <Button onClick={handleEdit}>変更を保存</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive/80" aria-label="Delete task">
+                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive/80" aria-label="タスクを削除">
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle className="font-headline">Delete Task</DialogTitle>
+                  <DialogTitle className="font-headline">タスクの削除</DialogTitle>
                   <DialogDescription>
-                    Are you sure you want to delete the task "{task.name}"? This action cannot be undone.
-                    Associated logged sessions will remain but will refer to a deleted task.
+                    本当にタスク「{task.name}」を削除しますか？この操作は元に戻せません。
+                    関連する記録済みセッションは残りますが、削除されたタスクを参照することになります。
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                  <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
-                  <Button variant="destructive" onClick={handleDelete}>Delete Task</Button>
+                  <DialogClose asChild><Button variant="outline">キャンセル</Button></DialogClose>
+                  <Button variant="destructive" onClick={handleDelete}>タスクを削除</Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
@@ -169,14 +166,14 @@ export function TaskItem({ task }: TaskItemProps) {
         <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
           <div className="flex items-center">
             <CalendarDays className="mr-1.5 h-4 w-4" />
-            Created: {formatDate(task.createdAt)}
+            作成日: {formatDate(task.createdAt)}
           </div>
         </div>
         <div className="text-center my-4">
           <p className="text-4xl font-bold font-mono text-foreground tabular-nums">
             {formatDuration(elapsedTime)}
           </p>
-          {isCurrentTaskActive && <p className="text-sm text-primary animate-pulse">Timer is active</p>}
+          {isCurrentTaskActive && <p className="text-sm text-primary animate-pulse">タイマー作動中</p>}
         </div>
       </CardContent>
       <CardFooter>
@@ -185,7 +182,7 @@ export function TaskItem({ task }: TaskItemProps) {
           className={`w-full ${isCurrentTaskActive ? 'bg-accent hover:bg-accent/90 text-accent-foreground' : 'bg-primary hover:bg-primary/90 text-primary-foreground'}`}
         >
           {isCurrentTaskActive ? <Square className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
-          {isCurrentTaskActive ? 'Stop Session' : 'Start Session'}
+          {isCurrentTaskActive ? 'セッション停止' : 'セッション開始'}
         </Button>
       </CardFooter>
     </Card>

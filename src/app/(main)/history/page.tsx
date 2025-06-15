@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { History } from 'lucide-react';
 
 export const metadata = {
-  title: 'Session History - StudyWise',
+  title: 'セッション履歴 - 学習ワイズ',
 };
 
 export default function HistoryPage() {
@@ -13,10 +13,10 @@ export default function HistoryPage() {
         <CardHeader>
           <CardTitle className="font-headline text-3xl flex items-center">
             <History className="mr-3 h-8 w-8 text-primary" />
-            Session History
+            セッション履歴
           </CardTitle>
           <CardDescription>
-            Review all your past study sessions, add notes, and manage your log.
+            過去のすべての学習セッションを確認し、メモを追加し、ログを管理します。
           </CardDescription>
         </CardHeader>
         <CardContent>

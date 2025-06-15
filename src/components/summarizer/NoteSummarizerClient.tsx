@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 
 const summarizerSchema = z.object({
-  notes: z.string().min(50, "Notes must be at least 50 characters long.").max(10000, "Notes cannot exceed 10,000 characters."),
+  notes: z.string().min(50, "ノートは50文字以上で入力してください。").max(10000, "ノートは10,000文字以内で入力してください。"),
 });
 
 type SummarizerFormData = z.infer<typeof summarizerSchema>;
@@ -45,14 +45,14 @@ export function NoteSummarizerClient() {
       const result = await summarizeNotes({ notes: data.notes });
       setSummary(result.summary);
       toast({
-        title: "Summary Generated!",
-        description: "Your notes have been successfully summarized.",
+        title: "要約が生成されました！",
+        description: "ノートが正常に要約されました。",
       });
     } catch (error) {
       console.error("Error summarizing notes:", error);
       toast({
-        title: "Error",
-        description: "Failed to summarize notes. Please try again.",
+        title: "エラー",
+        description: "ノートの要約に失敗しました。もう一度お試しください。",
         variant: "destructive",
       });
     } finally {
@@ -65,11 +65,11 @@ export function NoteSummarizerClient() {
       navigator.clipboard.writeText(summary)
         .then(() => {
           setIsCopied(true);
-          toast({ title: "Copied!", description: "Summary copied to clipboard." });
+          toast({ title: "コピーしました！", description: "要約がクリップボードにコピーされました。" });
           setTimeout(() => setIsCopied(false), 2000);
         })
         .catch(err => {
-          toast({ title: "Copy Failed", description: "Could not copy summary.", variant: "destructive" });
+          toast({ title: "コピー失敗", description: "要約をコピーできませんでした。", variant: "destructive" });
         });
     }
   };
@@ -80,8 +80,8 @@ export function NoteSummarizerClient() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Card className="shadow-lg">
             <CardHeader>
-              <CardTitle className="font-headline text-xl">Enter Your Study Notes</CardTitle>
-              <CardDescription>Paste your study notes below to get a concise summary.</CardDescription>
+              <CardTitle className="font-headline text-xl">学習ノートを入力</CardTitle>
+              <CardDescription>簡潔な要約を得るために、学習ノートを以下に貼り付けてください。</CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
@@ -89,11 +89,11 @@ export function NoteSummarizerClient() {
                 name="notes"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="notes-textarea" className="sr-only">Study Notes</FormLabel>
+                    <FormLabel htmlFor="notes-textarea" className="sr-only">学習ノート</FormLabel>
                     <FormControl>
                       <Textarea
                         id="notes-textarea"
-                        placeholder="Type or paste your detailed study notes here..."
+                        placeholder="詳細な学習ノートをここに入力または貼り付けてください..."
                         rows={10}
                         className="resize-none"
                         {...field}
@@ -111,7 +111,7 @@ export function NoteSummarizerClient() {
                 ) : (
                   <Wand2 className="mr-2 h-4 w-4" />
                 )}
-                Summarize Notes
+                ノートを要約
               </Button>
             </CardFooter>
           </Card>
@@ -121,7 +121,7 @@ export function NoteSummarizerClient() {
       {isLoading && (
         <Card className="shadow-lg animate-pulse">
           <CardHeader>
-            <CardTitle className="font-headline text-xl">Generating Summary...</CardTitle>
+            <CardTitle className="font-headline text-xl">要約を生成中...</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="h-4 bg-muted rounded w-3/4"></div>
@@ -134,8 +134,8 @@ export function NoteSummarizerClient() {
       {summary && !isLoading && (
         <Card className="shadow-xl bg-gradient-to-br from-primary/5 via-background to-background">
           <CardHeader className="flex flex-row justify-between items-center">
-            <CardTitle className="font-headline text-xl text-primary">Generated Summary</CardTitle>
-            <Button variant="ghost" size="icon" onClick={handleCopySummary} aria-label="Copy summary">
+            <CardTitle className="font-headline text-xl text-primary">生成された要約</CardTitle>
+            <Button variant="ghost" size="icon" onClick={handleCopySummary} aria-label="要約をコピー">
               {isCopied ? <Check className="h-4 w-4 text-green-500" /> : <ClipboardCopy className="h-4 w-4" />}
             </Button>
           </CardHeader>

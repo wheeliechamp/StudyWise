@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Brain } from 'lucide-react';
 
 export const metadata = {
-  title: 'AI Note Summarizer - StudyWise',
+  title: 'AIノート要約 - 学習ワイズ',
 };
 
 export default function SummarizerPage() {
@@ -13,10 +13,10 @@ export default function SummarizerPage() {
         <CardHeader>
           <CardTitle className="font-headline text-3xl flex items-center text-primary">
             <Brain className="mr-3 h-8 w-8" />
-            AI Note Summarizer
+            AIノート要約
           </CardTitle>
           <CardDescription className="text-lg">
-            Distill key points from your study notes with the power of AI. Reinforce your learning by focusing on the essentials.
+            AIの力で学習ノートから重要なポイントを抽出します。本質に焦点を当てることで学習を強化しましょう。
           </CardDescription>
         </CardHeader>
       </Card>

@@ -28,20 +28,20 @@ export function TimeSummaryDisplay() {
   const now = new Date();
 
   const dailyTotal = calculateTotalTime(sessions, startOfDay(now), endOfDay(now));
-  const weeklyTotal = calculateTotalTime(sessions, startOfWeek(now, { weekStartsOn: 1 }), endOfWeek(now, { weekStartsOn: 1 }));
+  const weeklyTotal = calculateTotalTime(sessions, startOfWeek(now, { weekStartsOn: 1 }), endOfWeek(now, { weekStartsOn: 1 })); // Monday as start of week
   const monthlyTotal = calculateTotalTime(sessions, startOfMonth(now), endOfMonth(now));
 
   const summaries: SummaryData[] = [
-    { title: "Today's Focus", totalTime: dailyTotal, periodLabel: "Today", icon: Activity },
-    { title: "This Week's Progress", totalTime: weeklyTotal, periodLabel: "This Week", icon: CalendarDays },
-    { title: "This Month's Dedication", totalTime: monthlyTotal, periodLabel: "This Month", icon: Calendar },
+    { title: "今日の集中", totalTime: dailyTotal, periodLabel: "今日", icon: Activity },
+    { title: "今週の進捗", totalTime: weeklyTotal, periodLabel: "今週", icon: CalendarDays },
+    { title: "今月の努力", totalTime: monthlyTotal, periodLabel: "今月", icon: Calendar },
   ];
 
   return (
     <div className="mb-8">
       <h2 className="text-2xl font-headline font-semibold text-foreground mb-4 flex items-center">
         <TrendingUp className="mr-2 h-6 w-6 text-primary" />
-        Activity Summary
+        アクティビティ概要
       </h2>
       <div className="grid gap-4 md:grid-cols-3">
         {summaries.map((summary) => (

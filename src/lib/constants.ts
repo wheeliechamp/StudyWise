@@ -1,7 +1,7 @@
 import type { LucideIcon } from 'lucide-react';
 import { LayoutDashboard, History, BookOpen, Brain, Settings } from 'lucide-react';
 
-export const APP_NAME = "StudyWise";
+export const APP_NAME = "学習ワイズ";
 
 export interface NavItem {
   href: string;
@@ -11,12 +11,12 @@ export interface NavItem {
 }
 
 export const NAV_LINKS: NavItem[] = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard, match: (pathname) => pathname === "/" },
-  { href: "/history", label: "Session History", icon: History },
-  { href: "/subjects", label: "Subject Analytics", icon: BookOpen },
-  { href: "/summarizer", label: "AI Note Summarizer", icon: Brain },
+  { href: "/", label: "ダッシュボード", icon: LayoutDashboard, match: (pathname) => pathname === "/" },
+  { href: "/history", label: "セッション履歴", icon: History },
+  { href: "/subjects", label: "科目別分析", icon: BookOpen },
+  { href: "/summarizer", label: "AIノート要約", icon: Brain },
 ];
 
 export const SETTINGS_LINK: NavItem = {
-  href: "/settings", label: "Settings", icon: Settings
+  href: "/settings", label: "設定", icon: Settings
 };
