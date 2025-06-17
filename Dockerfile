@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # ポートの公開
-EXPOSE 3000
+EXPOSE 3500
 
 # アプリの起動
 CMD ["npm", "start"]
