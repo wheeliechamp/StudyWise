@@ -27,9 +27,9 @@ WORKDIR /app
 
 # ビルドステージから必要なファイルをコピー
 COPY . .
-#COPY --from=builder /app/.next ./.next
-#COPY --from=builder /app/node_modules ./node_modules
-#COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
 #COPY --from=builder /app/public ./public # publicディレクトリもコピー
 
 # 環境変数を設定 (必要に応じて変更)
