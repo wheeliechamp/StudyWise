@@ -1,6 +1,5 @@
 "use client";
 
-import type React from 'react';
 import { useState, useEffect } from 'react';
 import type { Task } from '@/lib/types';
 import { useStudyStore } from '@/store/useStudyStore';
@@ -38,19 +37,19 @@ export function TaskItem({ task }: TaskItemProps) {
   const [editName, setEditName] = useState(task.name);
   const [editCategory, setEditCategory] = useState(task.category || '');
 
+  // activeSession.elapsedSeconds が更新されるたびに、elapsedTime を同期する
   useEffect(() => {
-    if (isCurrentTaskActive && activeSession.startTime) {
+    if (isCurrentTaskActive) {
       setElapsedTime(activeSession.elapsedSeconds);
-      const interval = setInterval(() => {
-         setElapsedTime(useStudyStore.getState().activeSession.elapsedSeconds);
-      }, 1000);
-      return () => clearInterval(interval);
     } else {
-      setElapsedTime(0);
+      // タスクがアクティブでない場合、そのタスクの総学習時間を表示
+      // ここでは簡略化のため、0にリセットしていますが、
+      // 実際にはそのタスクの過去のセッションの合計時間を表示するロジックが必要です。
+      // (例: useStudyStoreからgetTaskTotalDuration(task.id)のような関数を呼び出す)
+      setElapsedTime(0); // または getTaskTotalDuration(task.id)
     }
-  }, [isCurrentTaskActive, activeSession.startTime, activeSession.elapsedSeconds]);
-
-
+  }, [isCurrentTaskActive, activeSession.elapsedSeconds]); // activeSession.startTime はelapsedSecondsが更新されるので不要
+  
   const handleStartStop = () => {
     if (isCurrentTaskActive) {
       const stoppedSession = stopTimer();
