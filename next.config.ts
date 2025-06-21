@@ -18,8 +18,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  output: 'standalone', // Docker環境での推奨設定
-  basePath: '/studywise', // Nginxで設定したパスと合わせる
+  basePath: '/studywise',
+  assetPrefix: '/studywise',
 };
 
 export default nextConfig;
