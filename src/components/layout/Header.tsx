@@ -1,23 +1,19 @@
 "use client";
 
-import Link from 'next/link';
-import { SidebarTrigger } from '@/components/ui/sidebar';
-import { APP_NAME } from '@/lib/constants';
-import { BookMarked } from 'lucide-react';
+import { Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-export function Header() {
+interface HeaderProps {
+  onMenuClick: () => void;
+}
+
+export function Header({ onMenuClick }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 shadow-sm">
-      <div className="md:hidden">
-        <SidebarTrigger />
-      </div>
-      <Link href="/" className="flex items-center gap-2">
-        <BookMarked className="h-6 w-6 text-primary" />
-        <span className="font-headline text-xl font-semibold text-foreground">{APP_NAME}</span>
-      </Link>
-      <div className="ml-auto flex items-center gap-4">
-        {/* Future elements like ThemeToggle or UserProfile can go here */}
-      </div>
+    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 lg:hidden">
+      <Button size="icon" variant="outline" onClick={onMenuClick}>
+        <Menu className="h-5 w-5" />
+        <span className="sr-only">Toggle Menu</span>
+      </Button>
     </header>
   );
 }
